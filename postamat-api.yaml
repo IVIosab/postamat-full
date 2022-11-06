@@ -1,0 +1,329 @@
+openapi: 3.0.3
+info:
+  title: Postamat API 
+  description: |-
+    RESTful API, который позволяет пользователям создавать, извлекать, обновлять и удалять
+    лучшие места размещения постамата в Москве
+  contact:
+    email: mosab.f.r@gmail.com
+  version: 1.0.0
+servers:
+  - url: https://postamat-api.vercel.app/api
+tags:
+  - name: postamat
+    description: Операции по извлечению, размещению и изменению почтовых отправлений 
+paths:
+  /postamat:
+    post:
+      tags:
+        - postamat
+      summary: Добавить postamat в базу данных
+      description: создает запись в базе данных на основе тела запроса.
+      operationId: createPostamat
+      requestBody:
+        description:  Созданный объект postamat
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Postamat'
+      responses:
+        '201':
+          description: успешное создание
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PostamatResponse'
+        '400':
+          description: Значение параметра отсутствует
+  /postamat/circle:
+    get:
+      tags:
+        - postamat
+      summary: ищет почтовых партнеров по кругу
+      description:  извлекает все местоположения postamat в указанном круге
+      operationId: getPostamatsInCircle
+      parameters:
+        - name: lon
+          in: query
+          description: долгота точки
+          example: 37.9148622406268
+          required: true
+          schema: 
+            type: number
+        - name: lat
+          in: query
+          description: широта точки
+          example: 55.6840810549457
+          required: true
+          schema: 
+            type: number
+        - name: radius
+          in: query
+          description: радиус окружности
+          example: 4654.5
+          required: true
+          schema: 
+            type: number
+        - name: type
+          in: query
+          description: желаемые типы местоположений postamat
+          required: true
+          schema: 
+            type: array
+            items: 
+              type: string
+              example: papers_kiosks
+        - name: model
+          in: query
+          description:  желаемая модель
+          example: convenince
+          required: true
+          schema: 
+            type: string
+      responses:
+        '200':
+          description: успешная операция
+          content:
+            application/json:
+              schema:
+                type: array
+                items: 
+                  $ref: '#/components/schemas/PostamatResponse'
+        '404':
+          description:  постамат не найден
+        '500':
+          description:  ошибка сервера
+  /postamat/district:
+    get:
+      tags:
+        - postamat
+      summary: выполняет поиск почтовых партнеров в списке районов
+      description: извлекает все местоположения postamat в наборе районов
+      operationId: getPostamatsInDistrict
+      parameters:
+        - name: type
+          in: query
+          description: желаемые типы местоположений postamat
+          required: true
+          schema: 
+            type: array
+            items: 
+              type: string
+              example: papers_kiosks
+        - name: district
+          in: query
+          description:  желаемые типы районов
+          required: true
+          schema: 
+            type: array
+            items: 
+              type: string
+              example: некрасовка
+        - name: model
+          in: query
+          description: желаемая модель
+          example: convenince
+          required: true
+          schema: 
+            type: string
+      responses:
+        '200':
+          description: успешная операция
+          content:
+            application/json:
+              schema:
+                type: array
+                items: 
+                  $ref: '#/components/schemas/PostamatResponse'
+        '404':
+          description: постамат не найден
+        '500':
+          description: ошибка сервера
+  /postamat/admin:
+    get:
+      tags:
+        - postamat
+      summary: поиск постаматов в списке административных округов
+      description: извлекает все местоположения postamat в наборе административных округов
+      operationId: getPostamatsInAdmin
+      parameters:
+        - name: type
+          in: query
+          description: желаемые типы местоположений postamat
+          required: true
+          schema: 
+            type: array
+            items: 
+              type: string
+              example: papers_kiosks
+        - name: admin
+          in: query
+          description: желаемые типы административных округов
+          required: true
+          schema: 
+            type: array
+            items: 
+              type: string
+              example: Северо-Восточный административный округ
+        - name: model
+          in: query
+          description: the wanted model
+          example: convenince
+          required: true
+          schema: 
+            type: string
+      responses:
+        '200':
+          description: успешная операция
+          content:
+            application/json:
+              schema:
+                type: array
+                items: 
+                  $ref: '#/components/schemas/PostamatResponse'
+        '404':
+          description: постамат не найден
+        '500':
+          description: ошибка сервера
+  /postamat/{_id}:
+    put:
+      tags:
+        - postamat
+      summary: Обновление postamat
+      description: обновляет местоположение postamat на основе _id
+      operationId: updatePostamat
+      parameters:
+        - name: _id
+          in: path
+          description: идентификатор postamat, который необходимо обновить
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Обновите существующего пользователя в магазине
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Postamat'
+      responses:
+        '200':
+          description: успешная операция
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PostamatResponse'
+        '400':
+          description:  Предоставленный неверный идентификатор
+        '404':
+          description:  постамат не найден
+    delete:
+      tags:
+        - postamat
+      summary:  Удалить postamat
+      description: удаляет местоположение postamat на основе _id
+      operationId: deletePostamat
+      parameters:
+        - name: _id
+          in: path
+          description: Имя, которое необходимо удалить
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: успешная операция
+          content: 
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PostamatResponse'
+        '400':
+          description: Предоставленный неверный идентификатор
+        '404':
+          description:  постамат не найден
+components:
+  schemas:
+    Postamat:
+      type: object
+      properties:
+        address:
+          type: string
+          description:  адрес местонахождения
+          example: улица Тимура Фрунзе, д. 8/5
+        type:
+          type: string
+          description:  тип местоположения
+          example: kiosk
+        district:
+          type: string
+          description:  район
+          example: хамовники
+        administrativeDistrict:
+          type: string
+          description: административный округ
+          example: Центральный административный округ
+        model:
+          type: string
+          description: тип модели
+          example: main
+        rating:
+          type: number
+          description: рейтинг местоположения
+          example: 98.8057063646304
+        geometry: 
+          type: object
+          properties:
+            type: 
+              type: string
+              description:  Тип объекта GeoJSON
+              example: Point
+            coordinates: 
+              type: array
+              items: 
+                type: number
+              description: координаторы
+              example: [55.73346, 37.5920849999999]
+    PostamatResponse:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: auto generated id
+          example: 6367dcc131249c51096a446c
+        address:
+          type: string
+          description:  адрес местонахождения
+          example: улица Тимура Фрунзе, д. 8/5
+        type:
+          type: string
+          description: тип местоположения
+          example: kiosk
+        district:
+          type: string
+          description:  район
+          example: хамовники
+        administrativeDistrict:
+          type: string
+          description: административный округ
+          example: Центральный административный округ
+        model:
+          type: string
+          description:  тип модели
+          example: main
+        rating:
+          type: number
+          description:  рейтинг местоположения
+          example: 98.8057063646304
+        geometry: 
+          type: object
+          properties:
+            type: 
+              type: string
+              description:  Тип объекта GeoJSON
+              example: Point
+            coordinates: 
+              type: array
+              items: 
+                type: number
+              description: координаторы
+              example: [37.5920849999999,55.73346]
+    
