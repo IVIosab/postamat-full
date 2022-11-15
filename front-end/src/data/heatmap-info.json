@@ -1,0 +1,33 @@
+{
+	"type": "FeatureCollection",
+	"features": [
+	  {
+		"type": "Feature",
+		"geometry": {
+		  "type": "Point",
+		  "coordinates": [
+			-75.7,
+			45.4
+		  ]
+		},
+		"properties": {
+		  "rating": 50,
+		  "restaurant_name": "Sonu Da Dhaba"
+		}
+	  },
+	  {
+		"type": "Feature",
+		"geometry": {
+		  "type": "Point",
+		  "coordinates": [
+			-75.72,
+			45.4
+		  ]
+		},
+		"properties": {
+		  "rating": 100,
+		  "restaurant_name": "S.K Fast Food & Tiffin Centre"
+		}
+	  }
+	]
+  }
