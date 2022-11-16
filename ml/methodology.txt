@@ -1,0 +1,8 @@
+1. run moscow_hex_8: divide Moscow into non-overlapping hexagons of resolution 8 + count bus frequency for each hexagone
+2. run moscow_hex_9: divide Moscow into non-overlapping hexagons of resolution 8 + count bus frequency for each hexagone
+3. run osm_features_8: add osm features to traffic_bus (8) \
+4. run osm_features_9: add osm features to traffic_bus (9)
+5. run add population: add population and metro stations data to training data set
+6. run postmat_data: extract the postmats' data and add the target variable to the training dataset: obtaining training_data_y.xlsx file
+7. run test_datset: to create the data on which we will make predictions
+
