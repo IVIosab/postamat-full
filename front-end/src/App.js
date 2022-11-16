@@ -14,7 +14,7 @@ function App() {
 		  main: '#3f51b5',
 		},
 		secondary: {
-		  main: '#f50057',
+		  main: '#f52e47',
 		},
 		background: {
 		  default: '#f9f9f9',
@@ -42,7 +42,7 @@ function App() {
 						<Grid item xs={7}>
 							<Grid container padding={0} spacing={1}>
 
-								<Grid item id="mapComponent" xs={12}>
+								<Grid item xs={12}>
 									<MapComponent/>
 								</Grid>
 

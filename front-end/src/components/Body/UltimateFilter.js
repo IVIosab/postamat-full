@@ -5,7 +5,8 @@ import FilterRadius from './FilterRadius'
 import { useDispatch } from "react-redux"
 import { resetDistrictsSlice } from '../../store/districtsSlice'
 import { resetRadiusSlice } from '../../store/radiusSlice'
-import { resetMap } from '../../store/mapSlice'
+import { chooseOption, resetMap } from '../../store/mapSlice'
+import {AnimatePresence, motion} from "framer-motion/dist/framer-motion"; 
 
 function TabPanel(props) {
 
@@ -36,11 +37,16 @@ export default function BasicTabs() {
 	dispatch(resetDistrictsSlice())
 	dispatch(resetRadiusSlice())
 	dispatch(resetMap())
+	dispatch(chooseOption(newValue))
     setValue(newValue);
   };
 
   return (
     <Box sx={{ width: '100%' }}>
+	<motion.div
+		initial={{y: 1000, opacity: 0}}
+		animate={{y: 0, opacity: 1}}
+		>
       <Box sx={{ borderBottom: 0, borderColor: 'divider' }}>
         <Tabs 
 		sx={{'&.Mui-selected': {
@@ -123,6 +129,7 @@ export default function BasicTabs() {
       <TabPanel value={value} index={1}>
 	    <FilterRadius/>
       </TabPanel>
+	  </motion.div>
     </Box>
   );
 }

@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const radiusSlice = createSlice({
 	name: 'radius',
 	initialState: {
-		coordinates: [],
+		coordinates: [0,0],
 		radius : 0,
 		chosenTypes : []
 	},
@@ -18,7 +18,7 @@ const radiusSlice = createSlice({
 			state.chosenTypes = action.payload
 		},
 		resetRadiusSlice(state, action){
-			state.coordinates = []
+			state.coordinates = [0,0]
 			state.radius = 0
 			state.chosenTypes = []
 		}

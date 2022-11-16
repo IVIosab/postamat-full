@@ -23,8 +23,8 @@ export default function BasicMenu() {
   };
 
   const exportPDF = () => {
-	const input = document.getElementById('containerId')
-	html2canvas(input, {logging: true, letterRendering: 1, useCORS: true}).then(canvas => {
+	const input = document.getElementById("mapComponent")
+	html2canvas(input, {logging: true, letterRendering: 2, useCORS: true}).then(canvas => {
 	  const imgWidth = 208;
 	  const imgHeight = canvas.height * imgWidth / canvas.width;
 	  const imgData = canvas.toDataURL('img/png');

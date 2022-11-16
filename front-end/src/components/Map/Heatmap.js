@@ -32,15 +32,14 @@ const Heatmap = () => {
 
 
   return (
-
 	<HeatmapLayer
+	fitBoundsOnLoad
 	points={chosenPoints}
 	longitudeExtractor={(m) => m.geometry.coordinates[0]}
 	latitudeExtractor={(m) => m.geometry.coordinates[1]}
-	intensityExtractor={(m) => parseFloat(m.intensity/(49))}
-	max={1}
-	minOpacity={1}
-  />
+	intensityExtractor={(m) => parseFloat(m.intensity)}
+	minOpacity={.4}
+	/>
   )
 }
 

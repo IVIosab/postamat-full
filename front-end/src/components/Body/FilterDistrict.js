@@ -1,5 +1,6 @@
 import { useSelector, useDispatch } from "react-redux";
-import { Grid , Box, Select, FormControl, MenuItem, ListItemText, Checkbox, OutlinedInput, Button, List, Chip, ListItem, Typography } from '@mui/material';
+import LoadingButton from '@mui/lab/LoadingButton';
+import { Grid , Box, Select, FormControl, MenuItem, ListItemText, Checkbox, OutlinedInput, List, Chip, ListItem, Typography } from '@mui/material';
 import * as React from 'react';
 import axios from 'axios'
 
@@ -29,8 +30,12 @@ export default function BasicCard() {
 		 type: 'culture_clubs'},
 	];
 	const [typeName, setTypeName] = React.useState([]);
+	const [loading, setLoading] = React.useState(false);
 
 	async function handleClick (name) {
+
+		setLoading(true);
+
 		const districtNames = totalData.chosenDistricts.map((item) =>{
 			return item.api_name
 		})
@@ -39,27 +44,44 @@ export default function BasicCard() {
 		})
 		
 		if (chosenDistricts.length > 0){
-			if ('parent_id' in chosenDistricts[0]){
-				console.log('not administrative')
-				const main_api = "https://postamat-api.vercel.app/api/postamat/district?district=" + districtNames.join('&district=') + '&type='+districtTypes.join('&type=') + '&model=' + name
-				console.log(main_api)
-				axios.get(main_api)
-					.then(response => dispatch(chooseObjects(response.data)))
-					.catch((error) => {
-						console.error(error)
-					})
+			if(districtTypes.length > 0){
+				if ('parent_id' in chosenDistricts[0]){
+					console.log('not administrative')
+					const main_api = "https://postamat-api.vercel.app/api/postamat/district?district=" + districtNames.join('&district=') + '&type='+districtTypes.join('&type=') + '&model=' + name
+					console.log(main_api)
+					axios.get(main_api)
+						.then(response => {
+							dispatch(chooseObjects(response.data));
+							setLoading(false);
+						})
+						.catch((error) => {
+							console.error(error);
+							setLoading(false);
+						})
+				}
+				else{
+					console.log('administrative')
+					const main_api = "https://postamat-api.vercel.app/api/postamat/admin?admin=" + districtNames.join('&admin=') + '&type='+districtTypes.join('&type=') + '&model=main'
+					console.log(main_api)
+					axios.get(main_api)
+						.then(response => {
+							dispatch(chooseObjects(response.data));
+							setLoading(false);
+						})
+						.catch((error) => {
+							console.error(error);
+							setLoading(false);
+						})
+				}
 			}
 			else{
-				console.log('administrative')
-				const main_api = "https://postamat-api.vercel.app/api/postamat/admin?admin=" + districtNames.join('&admin=') + '&type='+districtTypes.join('&type=') + '&model=main'
-				console.log(main_api)
-				axios.get(main_api)
-					.then(response => dispatch(chooseObjects(response.data)))
-					.catch((error) => {
-						console.error(error)
-					})
+				setLoading(false);
 			}
 		}
+		else{
+			setLoading(false);
+		}
+
 	};
 
 	const handleTypeChange = (event) => {
@@ -95,7 +117,7 @@ export default function BasicCard() {
 	}}
 	>
         <Typography sx={{fontSize: "18.5px", m:1, ml:0, fontWeight: 'bold'}} color="#000000" >
-            Список выбранных районов : 
+            Список выбранных районов : {chosenDistricts.length > 0 ? console.log('empty') : 'пуст'}
 			<List
 				sx={{
 					mt: '1',
@@ -176,7 +198,8 @@ export default function BasicCard() {
 
         <Typography sx={{fontSize: "18.5px", m:1, ml:0, fontWeight: 'bold'}} color="#000000">
             Выберите модель расчета Индикатора Восстребованности :
-			<Button
+			<LoadingButton
+				loading={loading}
 				sx={{ 
 				p: 2,
 				m: 1,
@@ -201,8 +224,9 @@ export default function BasicCard() {
 				onClick={() => {handleClick('main')}}
 			>
 				Основная модель
-			</Button>
-			<Button
+			</LoadingButton>
+			<LoadingButton
+				loading={loading}
 				sx={{ 
 				p: 2,
 				m: 1,
@@ -226,8 +250,9 @@ export default function BasicCard() {
 				fullWidth
 			>
 				Модель на основании плотности населения 
-			</Button>
-			<Button
+			</LoadingButton>
+			<LoadingButton
+				loading={loading}
 				sx={{ 
 				p: 2,
 				m: 1,
@@ -251,7 +276,7 @@ export default function BasicCard() {
 				fullWidth
 			>
 				Модель на основании загружненности трафика
-			</Button>
+			</LoadingButton>
         </Typography>
 		<Typography>
 			<CardList/>
