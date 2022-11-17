@@ -5,7 +5,9 @@ import { useSelector } from "react-redux";
 
 const Heatmap = () => {
   const chosenPoints = useSelector((state) => {
-	const initialValue = state.map.chosenObjects
+	const initialValue = state.map.sortedChosenObjects
+	const chosenToFrom = [state.map.from, state.map.to] 
+
 	var count = 1
 	var newArray = []
 	initialValue.slice().reverse().forEach(element => {
@@ -24,7 +26,9 @@ const Heatmap = () => {
 			}
 		}
 		count ++
-		newArray.push(newElement)
+		if((element.rating > chosenToFrom[0]) && (element.rating < chosenToFrom[1])){
+			newArray.push(newElement)
+		}
 	})
 	console.log('bad', newArray)
 	return newArray

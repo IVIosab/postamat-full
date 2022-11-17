@@ -4,6 +4,7 @@ const mapSlice = createSlice({
 	name: 'map',
 	initialState: {
 		chosenObjects : [],
+		sortedChosenObjects: [],
 		chosenPoint : [],
 		zoomParameter: 0, 
 		option: 0,
@@ -12,8 +13,12 @@ const mapSlice = createSlice({
 		to: 100
 	},
 	reducers: {
+		chooseSortedObjects(state, action){
+			state.sortedChosenObjects = action.payload
+		},
 		chooseObjects(state, action) {
 			state.chosenObjects = action.payload
+			state.sortedChosenObjects = action.payload
 		},
 		chooseMap(state, action){
 			state.mapReference = action.payload
@@ -35,6 +40,7 @@ const mapSlice = createSlice({
 		resetMap(state, action){
 			state.chosenObjects = []
 			state.chosenPoint = []
+			state.sortedChosenObjects = []
 			state.zoomParameter = 0
 			state.limit = 0
 			state.from = 0
@@ -43,6 +49,6 @@ const mapSlice = createSlice({
 	}
 })
 
-export const { chooseObjects, chooseOption, chooseMap, choosePoint, resetMap, chooseLimit, chooseFromTo} = mapSlice.actions
+export const { chooseObjects, chooseOption, chooseMap, chooseSortedObjects, choosePoint, resetMap, chooseLimit, chooseFromTo} = mapSlice.actions
 
 export default mapSlice.reducer

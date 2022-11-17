@@ -43,10 +43,6 @@ export default function BasicTabs() {
 
   return (
     <Box sx={{ width: '100%' }}>
-	<motion.div
-		initial={{y: 1000, opacity: 0}}
-		animate={{y: 0, opacity: 1}}
-		>
       <Box sx={{ borderBottom: 0, borderColor: 'divider' }}>
         <Tabs 
 		sx={{'&.Mui-selected': {
@@ -129,7 +125,6 @@ export default function BasicTabs() {
       <TabPanel value={value} index={1}>
 	    <FilterRadius/>
       </TabPanel>
-	  </motion.div>
     </Box>
   );
 }

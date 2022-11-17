@@ -1,8 +1,8 @@
 import React from "react";
 import { Box, Grid, Card, Typography, CardActionArea, Divider, Alert} from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
-import { choosePoint } from "../../store/mapSlice";
-
+import { choosePoint, chooseSortedObjects } from "../../store/mapSlice";
+import Slider from '@mui/material/Slider';
 
 const types = {
 	'kiosks':'Киоск',
@@ -15,15 +15,48 @@ const types = {
 export default function SimpleCard() {
 
   const dispatch = useDispatch()
-  const chosenPoints = useSelector((state) => state.map.chosenObjects)
+  const mainPoints = useSelector((state) => state.map.chosenObjects)
+  const chosenPoints = useSelector((state) => state.map.sortedChosenObjects)
+  const [toFromValue, setToFromValue] = React.useState(100);
+  const handleToFromChange = (event, newValue) => {
+    setToFromValue(newValue);
+	const newArray = []
+	const lengthArr = mainPoints.length;
+	mainPoints.forEach((elem, i) => {
+		if( ((i / lengthArr) * 100) < newValue ){
+			newArray.push(elem)
+		}else{
+			console.log('freevalue')
+		}
+	})
+	dispatch(chooseSortedObjects(newArray))
+  };
 
   return (
+	<Grid     container
+	direction="row"
+	justifyContent="flex-start"
+	alignItems="flex-start">
+	<Grid xs item>
+	    <Typography variant="h8"  sx={{fontSize: "16.2px", ml:0, fontWeight: 'bold'}} color="#000000" gutterBottom>
+			<Grid container>
+				<Grid item xs={4}>
+					Выберите процентиль :
+				</Grid>
+				<Grid item xs={6}>
+					<Slider sx={{ width: '95%' }} value={toFromValue} onChange={handleToFromChange}  min={0} max={100} color="secondary" aria-label="Default" valueLabelDisplay="auto" />
+				</Grid>
+			</Grid> 
+	</Typography>
+	</Grid>
+	<Grid xs={12} item>
+	</Grid>
 	<Box
 	sx={{
 	border: 0, 
 	borderColor: '#bfbfbf',
 	backgroundColor: "#f9f9f9",
-	maxHeight: "230px",
+	maxHeight: "150px",
 	overflowY: "scroll",
 	boxShadow: 0,
 	borderRadius: 2,
@@ -85,5 +118,6 @@ export default function SimpleCard() {
         })}
       </Grid>
 	</Box>
+	</Grid>
   );
 }

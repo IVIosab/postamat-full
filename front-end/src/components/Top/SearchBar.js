@@ -60,7 +60,7 @@ export default function BasicCard() {
 					<Grid item xs={12}>
 					{ chosenOption === 0 &&
 						<motion.div
-						initial={{y: 1000, opacity: 0}}
+						initial={{y: 0, opacity: 1}}
 						animate={{y: 0, opacity: 1}}
 						>
 						<Autocomplete
@@ -101,7 +101,7 @@ export default function BasicCard() {
 					}
 					{ chosenOption === 1 &&
 						<motion.div
-						initial={{y: 1000, opacity: 0}}
+						initial={{y: 0, opacity: 1}}
 						animate={{y: 0, opacity: 1}}
 						>
 						<Autocomplete

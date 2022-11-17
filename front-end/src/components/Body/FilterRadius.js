@@ -101,7 +101,7 @@ async function handleClick (name) {
 					id="outlined-adornment-weight"
 					value={values.radius}
 					onChange={handleRadiusChange('radius')}
-					endAdornment={<InputAdornment position="end">㎡</InputAdornment>}
+					endAdornment={<InputAdornment position="end">m</InputAdornment>}
 					aria-describedby="outlined-weight-helper-text"
 					inputProps={{
 					'aria-label': 'radius',
