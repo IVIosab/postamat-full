@@ -1,5 +1,5 @@
 postamat_env
-__pycache__
-.idea
-cache
-catboost_info
+hak_ml_final/__pycache__
+hak_ml_final/.idea
+hak_ml_final/cache
+hak_ml_final/catboost_info
