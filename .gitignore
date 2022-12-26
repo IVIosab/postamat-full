@@ -1,1 +1,5 @@
 postamat_env
+__pycache__
+.idea
+cache
+catboost_info
