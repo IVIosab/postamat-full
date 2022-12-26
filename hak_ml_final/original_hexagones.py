@@ -3,12 +3,12 @@
 import geopandas as gpd
 import pandas as pd
 import numpy as np
+
 import json
 import h3
 import osmnx as ox
 from shapely.geometry import Polygon
 from shapely.geometry import Point
-import os 
 
 
 def get_lat_lon(geometry):
@@ -100,7 +100,7 @@ def get_hexagones(city: str, wanted_regions: list[str], resolution: int, filter_
                         hexagones = pd.concat([hexagones, region_data], ignore_index=True)
                 i += 1                  
             except:
-                print(region)
+                # print(region)
                 pass
 
     hexagones = hexagones.set_index('h3').sort_index().drop_duplicates(keep=False)
